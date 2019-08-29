@@ -30,7 +30,7 @@ function reducer<T> (state: T,action: IAction<T>): IState<T> {
     case REQUEST_FAILURE:
       return { ...state, loading: false, error: action.error }
     default:
-      return state
+      throw new Error('error')
   }
 }
 
