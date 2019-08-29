@@ -71,16 +71,16 @@ function useRequest<T extends (...args: any[]) => any> (
   const initialIState: IState<Unpacked<ReturnType<T>>> = {
     ...defaultInitialState,
     ...initialState,
-  };
-  const [state, dispatch] = useReducer(reducer, initialIState);
+  }
+  const [state, dispatch] = useReducer(reducer, initialIState)
 
   function requestCallback (...args: Parameters<T>): void {
-    request((): Unpacked<ReturnType<T>> => instance(...args), dispatch);
+    request((): Unpacked<ReturnType<T>> => instance(...args), dispatch)
   }
 
-  const memoizedRequestCallback = useCallback(requestCallback, []);
+  const memoizedRequestCallback = useCallback(requestCallback, [])
 
-  return [state, memoizedRequestCallback];
+  return [state, memoizedRequestCallback]
 }
 
 export default useRequest
