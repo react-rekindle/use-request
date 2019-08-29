@@ -17,7 +17,7 @@ export type ActionType =
 
 /** state */
 export interface IState<T> {
-  loading?: boolean;
+  loading: boolean;
   data?: DataType<T>;
   error?: ErrorType;
 }
