@@ -74,13 +74,13 @@ function useRequest<T extends (...args: any[]) => any> (
   };
   const [state, dispatch] = useReducer(reducer, initialIState);
 
-  function fetch(...args: Parameters<T>): void {
+  function requestCallback (...args: Parameters<T>): void {
     request((): Unpacked<ReturnType<T>> => instance(...args), dispatch);
   }
 
-  const memoizedFetch = useCallback(fetch, []);
+  const memoizedRequestCallback = useCallback(requestCallback, []);
 
-  return [state, memoizedFetch];
+  return [state, memoizedRequestCallback];
 }
 
 export default useRequest
