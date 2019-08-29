@@ -1,30 +1,38 @@
 import 'react-app-polyfill/ie11';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import axios from './axios'
 import useRequest from '../src';
 
 interface DataType {
-  data: {};
+  text: string;
+}
+
+interface ResponseType {
+  data: DataType;
   code: number;
   message?: string | undefined;
 }
 
-function getFoo (id: string): Promise<DataType> {
-  return axios.get(`/example/foo/${id}`)
+const exampleData: ResponseType = {
+  data: { text: 'Hello World!' },
+  code: 200,
 }
 
-const App = () => {
-  const [state, fetch] = useRequest(getFoo)
+function fakeGetFooApi (id?: string): Promise<ResponseType> {
+  return new Promise<ResponseType>(res => setTimeout(() => res(exampleData), 1000))
+}
 
-  React.useEffect(() => {
-    fetch('')
-  }, [fetch])
-  console.log(state)
+const App: React.FC = () => {
+  const [{ data, loading, error }, fetch] = useRequest(fakeGetFooApi)
+  
+  React.useEffect(() => { fetch() }, [fetch])
+  
+  if (loading) return <div>loading...</div>
+  if (error) return <div>error</div>
   
   return (
     <div>
-      123
+      {data && data.data.text}
     </div>
   );
 };
