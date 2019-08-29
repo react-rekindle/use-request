@@ -21,10 +21,10 @@ const defaultInitialState: IState<null> = {
  * @param {IAction<T>} action
  * @returns {IState<T>}
  */
-function reducer<T> (state: T,action: IAction<T>): IState<T> {
+function reducer<T extends IState<T>> (state: T,action: IAction<T>): IState<T> | never {
   switch (action.type) {
     case REQUEST_INIT:
-      return { ...state, loading: true, error: null }
+      return { ...state, loading: true }
     case REQUEST_SUCCESS:
       return { ...state, loading: false, data: action.payload }
     case REQUEST_FAILURE:
