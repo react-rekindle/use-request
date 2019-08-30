@@ -1,10 +1,10 @@
 
 /** data type for user */
-export type DataType<T> = T | null | undefined
+export type DataType<T> = T | null
 
 /** TODO: add generics */
 /** error type */
-export type ErrorType = string | Error | null | undefined
+export type ErrorType = string | Error | null
 
 /** action types */
 export type ActionType =
@@ -34,4 +34,4 @@ export type Unpacked<T> =
   T extends (infer U)[] ? U :
   T extends (...args: any[]) => infer U ? U :
   T extends Promise<infer U> ? U :
-  T;
+  T
