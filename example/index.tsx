@@ -19,7 +19,9 @@ const exampleData: ResponseType = {
 }
 
 function fakeGetFooApi (id?: string): Promise<ResponseType> {
-  return new Promise<ResponseType>(res => setTimeout(() => res(exampleData), 1000))
+  return new Promise<ResponseType>(
+    resolve => setTimeout(() => resolve(exampleData), 1000)
+  )
 }
 
 const App: React.FC = () => {
