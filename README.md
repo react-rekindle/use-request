@@ -12,7 +12,7 @@ A Tiny Custom React hooks for making request.
 
 ## Feature
 
-- 🧜 Typescript support.
+- 👕 Typescript support.
 - 🗜️ 1.3kb after minified without gzip.
 - 📤 Easy to use with different request clinet.
 
