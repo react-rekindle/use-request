@@ -1,5 +1,5 @@
 {
-  "name": "use-request",
+  "name": "@rekindle/use-request",
   "version": "0.1.0",
   "main": "dist/index.js",
   "module": "dist/use-request.esm.js",
@@ -39,8 +39,5 @@
     "tsdx": "^0.8.0",
     "tslib": "^1.10.0",
     "typescript": "^3.5.3"
-  },
-  "dependencies": {
-    "tiny-invariant": "^1.0.6"
   }
 }
