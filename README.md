@@ -1,11 +1,11 @@
 # use-request
 
 </a>
-<a href="https://npmjs.com/package/vue-show" target="\_parent">
-<img alt="" src="https://img.shields.io/npm/dm/vue-show.svg" />
+<a href="https://www.npmjs.com/package/@rekindle/use-request" target="\_parent">
+<img alt="" src="https://img.shields.io/npm/dm/@rekindle/use-request.svg" />
 </a>
-<a href="https://npmjs.com/package/vue-show" target="\_parent">
-<img alt="" src="https://img.shields.io/npm/v/vue-show.svg" />
+<a href="https://www.npmjs.com/package/@rekindle/use-request" target="\_parent">
+<img alt="" src="https://img.shields.io/npm/v/@rekindle/use-request.svg" />
 </a>
 
 A Tiny Custom React hooks for making request.
