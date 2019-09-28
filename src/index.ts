@@ -24,7 +24,7 @@ const defaultInitialState: IState<null> = {
 function reducer<T extends IState<T>> (state: T,action: IAction<T>): IState<T> | never {
   switch (action.type) {
     case REQUEST_INIT:
-      return { ...state, loading: true }
+      return { ...defaultInitialState, loading: true }
     case REQUEST_SUCCESS:
       return { ...state, loading: false, data: action.payload }
     case REQUEST_FAILURE:
