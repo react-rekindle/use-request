@@ -14,7 +14,7 @@ A Tiny Custom React hooks for making request.
 
 - 👕 Typescript support.
 - 🗜️ 1.3kb after minified without gzip.
-- 📤 Easy to use with different request clinet.
+- 📤 Easy to use with different request client.
 
 ## Install
 
