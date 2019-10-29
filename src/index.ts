@@ -21,7 +21,10 @@ const defaultInitialState: IState<null> = {
  * @param {IAction<T>} action
  * @returns {IState<T>}
  */
-function reducer<T extends IState<T>> (state: T,action: IAction<T>): IState<T> | never {
+function reducer<T extends IState<T>>(
+  state: T,
+  action: IAction<T>
+): IState<T> | never {
   switch (action.type) {
     case REQUEST_INIT:
       return { ...defaultInitialState, loading: true }
@@ -40,20 +43,24 @@ function reducer<T extends IState<T>> (state: T,action: IAction<T>): IState<T> |
  * @template T
  * @param {T} instance
  * @param {(aciton: IAction<ReturnType<T>>) => void} dispatch
- * @returns {Promise<void>}
+ * @returns {Promise<Object>}
  */
-async function request<T extends (...args: any[]) => any> (
+async function request<T extends (...args: any[]) => any>(
   instance: T,
-  dispatch: (aciton: IAction<ReturnType<T>>) => void,
-): Promise<void> {
-  try {
-    dispatch({ type: REQUEST_INIT })
-    const result = await instance()
-    dispatch({ type: REQUEST_SUCCESS, payload: result })
-  } catch (error) {
-    dispatch({ type: REQUEST_FAILURE, error })
-    throw error
-  }
+  dispatch: (aciton: IAction<ReturnType<T>>) => void
+): Promise<Object> {
+  return new Promise(async (resolve, reject) => {
+    try {
+      dispatch({ type: REQUEST_INIT })
+      const result = await instance()
+      dispatch({ type: REQUEST_SUCCESS, payload: result })
+      resolve(result)
+    } catch (error) {
+      dispatch({ type: REQUEST_FAILURE, error })
+      reject(error)
+      throw error
+    }
+  })
 }
 
 /**
@@ -62,20 +69,23 @@ async function request<T extends (...args: any[]) => any> (
  * @template T
  * @param {T} instance
  * @param {IState<Unpacked<ReturnType<T>>>} [initialState]
- * @returns {[IState<Unpacked<ReturnType<T>>>, (...args: Parameters<T>) => void]}
+ * @returns {[IState<Unpacked<ReturnType<T>>>, (...args: Parameters<T>) => Promise<Object>]}
  */
-function useRequest<T extends (...args: any[]) => any> (
+function useRequest<T extends (...args: any[]) => any>(
   instance: T,
   initialState?: IState<Unpacked<ReturnType<T>>>
-): [IState<Unpacked<ReturnType<T>>>, (...args: Parameters<T>) => void] {
+): [
+  IState<Unpacked<ReturnType<T>>>,
+  (...args: Parameters<T>) => Promise<Object>
+] {
   const initialIState: IState<Unpacked<ReturnType<T>>> = {
     ...defaultInitialState,
     ...initialState,
   }
   const [state, dispatch] = useReducer(reducer, initialIState)
 
-  function requestCallback (...args: Parameters<T>): void {
-    request((): Unpacked<ReturnType<T>> => instance(...args), dispatch)
+  function requestCallback(...args: Parameters<T>): Promise<Object> {
+    return request((): Unpacked<ReturnType<T>> => instance(...args), dispatch)
   }
 
   const memoizedRequestCallback = useCallback(requestCallback, [])
