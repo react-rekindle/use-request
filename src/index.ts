@@ -45,11 +45,12 @@ function reducer<T extends IState<T>> (state: T,action: IAction<T>): IState<T> |
 async function request<T extends (...args: any[]) => any> (
   instance: T,
   dispatch: (aciton: IAction<ReturnType<T>>) => void,
-): Promise<void> {
+): Promise<ReturnType<T>> {
   try {
     dispatch({ type: REQUEST_INIT })
     const result = await instance()
     dispatch({ type: REQUEST_SUCCESS, payload: result })
+    return result
   } catch (error) {
     dispatch({ type: REQUEST_FAILURE, error })
     throw error
@@ -57,30 +58,30 @@ async function request<T extends (...args: any[]) => any> (
 }
 
 /**
- * main function
+ *  main function
  *
  * @template T
  * @param {T} instance
  * @param {IState<Unpacked<ReturnType<T>>>} [initialState]
- * @returns {[IState<Unpacked<ReturnType<T>>>, (...args: Parameters<T>) => void]}
+ * @returns
  */
 function useRequest<T extends (...args: any[]) => any> (
   instance: T,
   initialState?: IState<Unpacked<ReturnType<T>>>
-): [IState<Unpacked<ReturnType<T>>>, (...args: Parameters<T>) => void] {
-  const initialIState: IState<Unpacked<ReturnType<T>>> = {
+) {
+  const initialIState = {
     ...defaultInitialState,
     ...initialState,
   }
   const [state, dispatch] = useReducer(reducer, initialIState)
 
-  function requestCallback (...args: Parameters<T>): void {
-    request((): Unpacked<ReturnType<T>> => instance(...args), dispatch)
+  function requestCallback (...args: Parameters<T>) {
+    return request((): Unpacked<ReturnType<T>> => instance(...args), dispatch)
   }
 
   const memoizedRequestCallback = useCallback(requestCallback, [])
 
-  return [state, memoizedRequestCallback]
+  return [state, memoizedRequestCallback] as const
 }
 
 export default useRequest
