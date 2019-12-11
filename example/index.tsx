@@ -1,18 +1,14 @@
-import 'react-app-polyfill/ie11';
-import * as React from 'react';
-import * as ReactDOM from 'react-dom';
-import useRequest from '../src';
-import {
-  listAllBreeds,
-  getRandomImagesOfBreeds,
-  transform,
-} from './axios'
+import 'react-app-polyfill/ie11'
+import * as React from 'react'
+import * as ReactDOM from 'react-dom'
+import useRequest from '../src'
+import { listAllBreeds, getRandomImagesOfBreeds, transform } from './axios'
 
 const App: React.FC = () => {
   const [{ loading, error, data }, fetchList] = useRequest(listAllBreeds)
   const [imageState, fetchImage] = useRequest(getRandomImagesOfBreeds)
 
-  function handleClick (breed: string): void {
+  function handleClick(breed: string): void {
     fetchImage(breed)
   }
 
@@ -20,7 +16,7 @@ const App: React.FC = () => {
     fetchList()
   }, [fetchList])
 
-  const renderIamge = () => {
+  const renderImage = () => {
     const { loading, error, data } = imageState
 
     if (loading) return <div>loading...</div>
@@ -37,15 +33,13 @@ const App: React.FC = () => {
   return (
     <div>
       <ul>
-        {list.map((item) => (
+        {list.map(item => (
           <li key={item.key} onClick={() => handleClick(item.key)}>
             {item.value}
           </li>
         ))}
       </ul>
-      <div style={{ position: 'fixed', top: 0, right: 0 }} >
-        {renderIamge()}
-      </div>
+      <div style={{ position: 'fixed', top: 0, right: 0 }}>{renderImage()}</div>
     </div>
   )
 }
